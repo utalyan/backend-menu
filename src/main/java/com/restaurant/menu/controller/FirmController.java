@@ -2,10 +2,13 @@ package com.restaurant.menu.controller;
 
 import com.restaurant.menu.auth.AuthUserDetails;
 import com.restaurant.menu.entity.Firm;
+import com.restaurant.menu.entity.TypeOf;
 import com.restaurant.menu.entity.User;
 import com.restaurant.menu.entity.vm.RepastVM;
+import com.restaurant.menu.entity.vm.TypeOfVM;
 import com.restaurant.menu.service.FirmService;
 import com.restaurant.menu.service.RepastService;
+import com.restaurant.menu.service.TypeOfService;
 import com.restaurant.menu.service.UserService;
 import com.restaurant.menu.shared.UniqueUsernameValidator;
 import io.jsonwebtoken.Claims;
@@ -34,6 +37,9 @@ public class FirmController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TypeOfService typeOfService;
 
     public static final Logger log = LoggerFactory.getLogger(FirmController.class);
 
@@ -65,5 +71,58 @@ public class FirmController {
         repastVM.setFirm(user.getFirm());
 
         return  ResponseEntity.ok(repastService.save(repastVM));
+    }
+
+    @DeleteMapping(path = "/api/1.0/repasts/{id}")
+    public void removeRepast(@PathVariable Long id){
+        AuthUserDetails authUserDetails = (AuthUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.findById(authUserDetails.getUserId());
+
+        RepastVM repastVM = new RepastVM();
+
+        repastVM.setId(id);
+        repastVM.setFirm(user.getFirm());
+
+        repastService.remove(repastVM);
+
+
+    }
+
+    @GetMapping(path = "/api/1.0/typeof")
+    public ResponseEntity<?> getAllTypeOf()
+    {
+        AuthUserDetails authUserDetails = (AuthUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.findById(authUserDetails.getUserId());
+
+        return ResponseEntity.ok(typeOfService.getAllWithFirm(user.getFirm().getId()));
+
+    }
+
+    @PostMapping(path = "/api/1.0/typeof")
+    public ResponseEntity<?> createTypeOf(@RequestBody TypeOfVM typeOfVM )
+    {
+        AuthUserDetails authUserDetails = (AuthUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.findById(authUserDetails.getUserId());
+
+        typeOfVM.setFirm(user.getFirm());
+
+        return ResponseEntity.ok(typeOfService.save(typeOfVM));
+    }
+
+    @DeleteMapping(path = "/api/1.0/typeof/{id}")
+    public void removeTypeOf(@PathVariable Long id)
+    {
+        AuthUserDetails authUserDetails = (AuthUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.findById(authUserDetails.getUserId());
+
+        TypeOfVM typeOfVM = new TypeOfVM();
+        typeOfVM.setId(id);
+        typeOfVM.setFirm(user.getFirm());
+        typeOfService.remove(typeOfVM);
+
     }
 }
