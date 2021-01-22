@@ -25,9 +25,9 @@ public class TypeOfService {
     public TypeOf save(TypeOfVM typeOfVM) {
         TypeOf typeOf = new TypeOf();
 
-        typeOf.setId(typeOf.getId());
-        typeOf.setName(typeOf.getName());
-        typeOf.setFirm(typeOf.getFirm());
+        typeOf.setId(typeOfVM.getId());
+        typeOf.setName(typeOfVM.getName());
+        typeOf.setFirm(typeOfVM.getFirm());
 
         return typeOfRepository.save(typeOf);
     }
