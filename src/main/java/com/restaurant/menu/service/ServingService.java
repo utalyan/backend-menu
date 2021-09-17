@@ -4,6 +4,7 @@ import com.restaurant.menu.entity.Serving;
 import com.restaurant.menu.entity.User;
 import com.restaurant.menu.entity.vm.ServingVM;
 import com.restaurant.menu.repository.ServingRepository;
+import com.restaurant.menu.repository.VMRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,12 @@ public class ServingService {
     @Autowired
     ServingRepository servingRepository;
 
+    @Autowired
+    VMRepository vmRepository;
+
     public List<ServingVM> getAllServing(User user) {
 
-        return servingRepository.findAllServing(user.getFirm().getId());
+        return vmRepository.findAllServing(user.getFirm().getId());
 
     }
 

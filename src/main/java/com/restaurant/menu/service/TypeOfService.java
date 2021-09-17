@@ -36,4 +36,8 @@ public class TypeOfService {
 
         typeOfRepository.deleteByIdAndFirmId(typeOfVM.getId(),typeOfVM.getFirm().getId());
     }
+
+    public TypeOf findById(Long typeOfId) {
+        return typeOfRepository.findById(typeOfId).get();
+    }
 }

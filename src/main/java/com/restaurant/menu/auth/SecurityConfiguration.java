@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/1.0/countys/{cityId}").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/1.0/firms").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/images/**").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(new AuthEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
